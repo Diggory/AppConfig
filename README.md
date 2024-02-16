@@ -4,6 +4,10 @@ A Swift package which makes it easy to have a set of app-wide properties which c
 
 Useful for applications on Linux, where (at the time of writing) [Foundation's UserDefaults don't work](https://github.com/apple/swift-corelibs-foundation/issues/4837).  I assume that this will be rectified in [The new Swift-based Foundation Project](https://github.com/apple/swift-foundation) 
 
+If you are targetting Apple's platforms, then you should probably use Foundation's [UserDefaults](https://developer.apple.com/documentation/foundation/userdefaults) class instead of this package. [Hacking With Swift Example](https://www.hackingwithswift.com/read/12/2/reading-and-writing-basics-userdefaults) for using UserDefaults
+
+
+
 > [!NOTE]  
 > Fill this section out with examples as per below…
 	
