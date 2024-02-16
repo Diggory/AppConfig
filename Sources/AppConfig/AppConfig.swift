@@ -4,18 +4,26 @@ import AnyCodable
 
 /// Stores app configuration properties.  Can load and save them to file.
 public class AppConfig {
-	public init(configFileName: String, configDictionary: [String : AnyCodable] = [String: AnyCodable]()) {
+	
+	//	A shorthand for the config dict
+	public typealias AppConfigDict = [String: AnyCodable]
+	
+	public init(
+		configDirectoryString: String = "/etc/",
+		configFileName: String,
+		configDictionary: AppConfigDict = AppConfigDict()
+	) {
+		self.configDirectoryString = configDirectoryString
 		self.configFileName = configFileName
-		self.configDictionary = configDictionary
 	}
 	
 	///	Folder where the config file is stored on disc.  n.b. the default (/etc/) is only available to Root.
 	public var configDirectoryString = "/etc/"
 	///	The name of the config file on disc (without file extension)
 	var configFileName: String
-
+	
 	///	Our storage object
-	var configDictionary = [String: AnyCodable]()
+	var configDictionary = AppConfigDict()
 	
 	//	Subscripting
 	public subscript(key: String) -> Codable? {
@@ -29,6 +37,19 @@ public class AppConfig {
 			configDictionary[key] = AnyCodable(newValue)
 		}
 	}
+	
+	
+	//	TODO: Rename
+	///	Sets the AppConfig file contents from a dictionary parameter
+	public func setInitialConfigWhereNoDefaultsInFilesystem(initialProps: AppConfigDict) -> Bool {
+		if !configDictionary.isEmpty {
+			print("attempt to call \(#function) when configDictionary is not empty")
+			return false
+		}
+		configDictionary = initialProps
+		return true
+	}
+
 
 	///	Writes the config out to flie as JSON
 	public func persistConfigToFilesystem() -> Bool {

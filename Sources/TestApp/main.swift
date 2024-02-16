@@ -3,12 +3,20 @@ import AppConfig
 //	A simple executable which shows use of AppConfig
 
 //	Setup appConfig instance
-let appConfig = AppConfig(configFileName: "TestApp")
+var appConfig = AppConfig(configFileName: "TestApp")
 appConfig.configDirectoryString = "/tmp/"
 
 //	Attempt to load the config from disc
 if (!appConfig.loadConfigFromFilesystem()) {
-	print("Unable to load app config from filesystem")
+	print("Unable to load app config from filesystem (neither from active config file, nor the defaults config file..")
+	print("Setting config from a hard-coded property")
+
+	//	FIXME: This should be type-safe if possible.  Is it possible?  This is a K/V store....
+	//	Maybe check keys from registration?  Currently open - all keys are valid...
+	//	Maybe make the user register keys?  Sounds like the Windows Registry...
+	if (!appConfig.setInitialConfigWhereNoDefaultsInFilesystem(initialProps: ["Bing": "Bong"])) {
+		print("Cannot set initial config - there appears to be an existing config in the filesytem.  Either a user generated one, or a default file....")
+	}
 }
 
 //	A Type that does not conform to the Codable Protocol
