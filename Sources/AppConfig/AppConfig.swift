@@ -15,15 +15,32 @@ public class AppConfig {
 	) {
 		self.configDirectoryString = configDirectoryString
 		self.configFileName = configFileName
+		self.configDictionary = AppConfigDict()
 	}
 	
 	///	Folder where the config file is stored on disc.  n.b. the default (/etc/) is only available to Root.
 	public var configDirectoryString = "/etc/"
 	///	The name of the config file on disc (without file extension)
 	var configFileName: String
+	/// Should auto-save to file when a property is changed
+	var shouldAutoSave = true
 	
 	///	Our storage object
-	var configDictionary = AppConfigDict()
+	var configDictionary: AppConfigDict {
+		willSet(newAppConfigDict) {
+			//			print("configDictionary: didSet()")
+			//	TODO: Debounce...  without losing saves.
+			
+			//	check that the value has changed
+			if  newAppConfigDict ==  configDictionary{
+				return
+			}
+
+			if shouldAutoSave {
+				_ = self.persistConfigToFilesystem()
+			}
+		}
+	}
 	
 	//	Subscripting
 	public subscript(key: String) -> Codable? {
@@ -99,11 +116,11 @@ public class AppConfig {
 			if let importedJsonData = try String(contentsOfFile: importPath).data(using: .utf8) {
 				importedConfigDictonary = try JSONDecoder().decode([String: AnyCodable].self, from: importedJsonData)
 			} else {
-				print("ERROR: AppConfig: could not convert string to JSON \(importPath)")
+				print("WARN: AppConfig: could not convert string to JSON \(importPath)")
 				return false
 			}
 		} catch {
-			print("ERROR: AppConfig: Could not load config from JSON - \(importPath) - \(error)")
+			print("WARN: AppConfig: Could not load config from JSON - \(importPath) - \(error)")
 			return false
 		}
 		//	We should now have a valid config instance.

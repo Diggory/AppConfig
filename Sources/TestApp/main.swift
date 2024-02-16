@@ -8,7 +8,7 @@ appConfig.configDirectoryString = "/tmp/"
 
 //	Attempt to load the config from disc
 if (!appConfig.loadConfigFromFilesystem()) {
-	print("Unable to load app config from filesystem (neither from active config file, nor the defaults config file..")
+	print("Unable to load app config from filesystem (neither from active config file, nor the defaults config file…)")
 	print("Setting config from a hard-coded property")
 
 	//	FIXME: This should be type-safe if possible.  Is it possible?  This is a K/V store....
