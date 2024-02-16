@@ -2,7 +2,7 @@
 
 A Swift package which makes it easy to have a set of app-wide properties which can be persisted and loaded to/from the filesystem (encoded as JSON).
 
-Useful for applications on Linux, where (at the time of writing) Foundation's UserDefaults don't work.
+Useful for applications on Linux, where (at the time of writing) [Foundation's UserDefaults don't work](https://github.com/apple/swift-corelibs-foundation/issues/4837).  I assume that this will be rectified in [The new Swift-based Foundation Project](https://github.com/apple/swift-foundation) 
 
 > [!NOTE]  
 > Fill this section out with examples as per below…
