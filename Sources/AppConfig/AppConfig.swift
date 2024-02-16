@@ -47,9 +47,31 @@ public class AppConfig {
 		return true
 	}
 	
-	///	Loads config from filesystem
+	///	Loads the saved config - if not available on the filesystem then use defaults...
 	public func loadConfigFromFilesystem() -> Bool {
-		let importPath = configDirectoryString + configFileName + ".json"
+		//	Config file already exists
+		if (loadConfigFromFilesystemWithFilename(configFileName)) {
+			return true
+		}
+		//	Try default config file
+		if (loadDefaults()) {
+			return true
+		}
+
+		//	Return false...
+		return false
+	}
+
+	///	Loads default config from filesystem.  Default config is in the set folder and has the name ($configFileName_defaults.json)
+	public func loadDefaults() -> Bool {
+		print("Loading defaults...")
+		return loadConfigFromFilesystemWithFilename(configFileName + "_defaults")
+	}
+
+	
+	///	Loads config from filesystem given a specific filename in thte appropriate folder
+	public func loadConfigFromFilesystemWithFilename(_ fileName: String) -> Bool {
+		let importPath = configDirectoryString + fileName + ".json"
 		print("loading config from filesystem \(importPath)")
 		var importedConfigDictonary: [String: AnyCodable]
 		do {
@@ -68,5 +90,7 @@ public class AppConfig {
 		
 		return true
 	}
+
+	
 
 }
