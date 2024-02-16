@@ -11,3 +11,6 @@ Useful for applications on Linux, where (at the time of writing) [Foundation's U
 - Add example where an existing config file exists
 - Add example where an existing config file doesn't exist, but a default config file exists
 - Add example where neither an existing config file exists nor a default config file exists. In this case we make defaults in code. 
+
+
+As this repo is public, I should _probably_ learn how to do tests…
