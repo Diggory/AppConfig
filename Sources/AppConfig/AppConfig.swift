@@ -58,7 +58,7 @@ public class AppConfig {
 			return true
 		}
 
-		//	Return false...
+		//	We have neither a config file, nor a defaults file…
 		return false
 	}
 
