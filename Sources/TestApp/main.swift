@@ -2,8 +2,13 @@ import AppConfig
 
 //	A simple executable which shows use of AppConfig
 
+///	Name of our app
+let appName = "TestApp"
+
 //	Setup appConfig instance
-var appConfig = AppConfig(configFileName: "TestApp")
+
+///  Our test AppConfig Instance
+var appConfig = AppConfig(configFileName: appName)
 appConfig.configDirectoryString = "/tmp/"
 
 //	Attempt to load the config from disc
@@ -15,17 +20,18 @@ if (!appConfig.loadConfigFromFilesystem()) {
 	//	Maybe check keys from registration?  Currently open - all keys are valid...
 	//	Maybe make the user register keys?  Sounds like the Windows Registry...
 	if (!appConfig.setInitialConfigWhereNoDefaultsInFilesystem(initialProps: ["Bing": "Bong"])) {
+		//	Technically this case should never happen in this specific closure as we have already checked for this case in loadConfigFromFilesystem()…
 		print("Cannot set initial config - there appears to be an existing config in the filesytem.  Either a user generated one, or a default file....")
 	}
 }
 
-//	A Type that does not conform to the Codable Protocol
+///	A type that does not conform to the Codable Protocol
 struct NonCodableType {
 	let aString: String
 	let AnInt: Int
 }
 
-//	A type that does conform to Codable
+///	A type that does conform to Codable
 struct MyCodableType: Codable {
 	let aString: String
 	let AnInt: Int
@@ -44,20 +50,21 @@ func setPropertyForKey(_ prop: Codable, key:String) {
 	print("\(key): \(retrievedConfigProperty ?? "No config prop for key: \(key)")")
 }
 
-//	String Propery
+///	String Propery
 let testConfigPropertyKey = "testConfigPropertyKey"
 getPropertyForKey(key: testConfigPropertyKey)
 setPropertyForKey("I am a String Property", key: testConfigPropertyKey)
 
-//	Int Propery
+///	Int Propery
 let testConfigPropertyKey2 = "testConfigPropertyKey2"
 getPropertyForKey(key: testConfigPropertyKey2)
 setPropertyForKey(42, key: testConfigPropertyKey2)
 
-//	Non-codable Type Propery
+///	Non-codable Type Propery
 let testConfigPropertyKey3 = "testConfigPropertyKey3"
 getPropertyForKey(key: testConfigPropertyKey2)
-//	Cannot set non-codable type.  This is an error.
+
+//	Cannot set non-codable type.  This would be an error if we were to uncomment the line below.
 //setPropertyForKey(NonCodableType(aString: "Foo", AnInt: 42), key: testConfigPropertyKey2)
 
 //	Codable Type Propery

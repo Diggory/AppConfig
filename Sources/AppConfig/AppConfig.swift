@@ -2,10 +2,10 @@ import Foundation
 import AnyCodable
 
 
-/// Stores app configuration properties.  Can load and save them to file.
+/// Stores app configuration properties.  Can read and save them to file.
 public class AppConfig {
 	
-	//	A shorthand for the config dict
+	///	A shorthand for the config dict
 	public typealias AppConfigDict = [String: AnyCodable]
 	
 	public init(
