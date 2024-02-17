@@ -16,13 +16,13 @@ If you are targetting Apple's platforms, then you should probably use Foundation
 ## Adding AppConfig as a dependency to your package
 You need to declare your dependency in your `Package.swift` manifest file in the `dependencies` array:
 
-```
+```swift
 .package(url: "https://github.com/Diggory/AppConfig.git", from: "0.0.1"),
 ```
 
 And also to your application/library target, add `"AppConfig"` to your `dependencies`, e.g. like this:
 
-```
+```swift
 .target(name: "YourAppNameHere", dependencies: [
     .product(name: "AppConfig", package: "AppConfig")
 ],
@@ -31,7 +31,7 @@ And also to your application/library target, add `"AppConfig"` to your `dependen
 
 e.g. in a full package manifest
 
-```
+```swift
 // swift-tools-version: 5.7
 import PackageDescription
 
@@ -53,7 +53,7 @@ let package = Package(
 ## Examples
 
 ### Setup
-```
+```swift
 	// Import AppConfig to use it.
 	import AppConfig
 	
@@ -70,7 +70,7 @@ let package = Package(
 
 ### 1) An example where an existing working config file exists `/etc/YourAppName.json` or a default config file exists `/etc/YourAppName_defaults.json`
 
-```
+```swift
 	//	Attempt to load the config from disc
 	if (!appConfig.loadConfigFromFilesystem()) {
 		print("Unable to load app config from filesystem (neither from active config file, nor the defaults config file…)")
@@ -81,7 +81,7 @@ let package = Package(
 
 ### 2) An example where neither an existing config file exists nor a default config file exists. In this case we make defaults in code. Useful in the failure case above.
 
-```
+```swift
 	if (!appConfig.setInitialConfigWhereNoDefaultsInFilesystem(initialProps: ["Bing": "Bong"])) {
 			print("Cannot set initial config - there appears to be an existing config in the filesytem.  Either a user generated one, or a default file....")
 	}
@@ -89,7 +89,7 @@ let package = Package(
 
 ### A combination of 1 and 2:
 
-```
+```swift
 	//	Attempt to load the config from disc
 	if (!appConfig.loadConfigFromFilesystem()) {
 		print("Unable to load app config from filesystem (neither from active config file, nor the defaults config file…)")
@@ -104,7 +104,7 @@ let package = Package(
 
 ### Setting a property to the store 
 
-```
+```swift
 	let key = "bing"
 	appConfig[key] = "bang!"
 ```
@@ -112,7 +112,7 @@ let package = Package(
 
 ### Getting a property from the store 
 
-```
+```swift
 	let key = "bing"
 	let retrievedConfigProperty = appConfig[key]
 	print("\(key): \(retrievedConfigProperty ?? "No config property for key: \(key)")")
@@ -120,7 +120,7 @@ let package = Package(
 
 result:
 
-```
+```swift
 bing: bang!
 ```
 
