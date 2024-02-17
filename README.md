@@ -6,7 +6,7 @@ Useful for applications on Linux, where (at the time of writing) [Foundation's U
 
 If you are targetting Apple's platforms, then you should probably use Foundation's [UserDefaults](https://developer.apple.com/documentation/foundation/userdefaults) class instead of this package. [Hacking With Swift Example](https://www.hackingwithswift.com/read/12/2/reading-and-writing-basics-userdefaults) for using UserDefaults
 
-
+---
 
 > [!NOTE]  
 > Fill this section out with examples as per below…
@@ -18,6 +18,7 @@ If you are targetting Apple's platforms, then you should probably use Foundation
 
 As this repo is public, I should _probably_ learn how to do tests…
 
+---
 
 ## Adding AppConfig as a dependency to your package
 You need to declare your dependency in your `Package.swift` manifest file in the `dependencies` array:
@@ -54,4 +55,28 @@ let package = Package(
 			]),
 	]
 )
+```
+---
+## Examples
+
+### An example where an existing config file exists
+
+```
+example code here
+```
+
+---
+
+### An example where an existing config file doesn't exist, but a default config file exists
+
+```
+example code here
+```
+
+---
+
+### An example where neither an existing config file exists nor a default config file exists. In this case we make defaults in code. 
+
+```
+example code here
 ```
