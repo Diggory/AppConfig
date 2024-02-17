@@ -54,27 +54,26 @@ let package = Package(
 
 ### Setup
 ```swift
-	// Import AppConfig to use it.
-	import AppConfig
-	
-	//	The appConfig needs to know what your app name is, 
-	//	so that it can store the config in the correctly named files.
-	var appConfig = AppConfig(configFileName: "YourAppNameHere")
-	
-	//	In which folder should the config files be saved?  
-	//	/etc is only available to root.  
-	//	/tmp can be purged at any time (but can work for our examples).
-	appConfig.configDirectoryString = "/tmp/"
+// Import AppConfig to use it.
+import AppConfig
 
+//	The appConfig needs to know what your app name is, 
+//	so that it can store the config in the correctly named files.
+var appConfig = AppConfig(configFileName: "YourAppNameHere")
+
+//	In which folder should the config files be saved?  
+//	/etc is only available to root.  
+//	/tmp can be purged at any time (but can work for our examples).
+appConfig.configDirectoryString = "/tmp/"
 ```
 
 ### 1) An example where an existing working config file exists `/etc/YourAppName.json` or a default config file exists `/etc/YourAppName_defaults.json`
 
 ```swift
-	//	Attempt to load the config from disc
-	if (!appConfig.loadConfigFromFilesystem()) {
-		print("Unable to load app config from filesystem (neither from active config file, nor the defaults config file…)")
-	}
+//	Attempt to load the config from disc
+if (!appConfig.loadConfigFromFilesystem()) {
+	print("Unable to load app config from filesystem (neither from active config file, nor the defaults config file…)")
+}
 ```
 
 ---
@@ -82,40 +81,40 @@ let package = Package(
 ### 2) An example where neither an existing config file exists nor a default config file exists. In this case we make defaults in code. Useful in the failure case above.
 
 ```swift
-	if (!appConfig.setInitialConfigWhereNoDefaultsInFilesystem(initialProps: ["Bing": "Bong"])) {
-			print("Cannot set initial config - there appears to be an existing config in the filesytem.  Either a user generated one, or a default file....")
-	}
+if (!appConfig.setInitialConfigWhereNoDefaultsInFilesystem(initialProps: ["Bing": "Bong"])) {
+		print("Cannot set initial config - there appears to be an existing config in the filesytem.  Either a user generated one, or a default file....")
+}
 ```
 
 ### A combination of 1 and 2:
 
 ```swift
-	//	Attempt to load the config from disc
-	if (!appConfig.loadConfigFromFilesystem()) {
-		print("Unable to load app config from filesystem (neither from active config file, nor the defaults config file…)")
-		print("Setting config from a hard-coded property")
-		if (!appConfig.setInitialConfigWhereNoDefaultsInFilesystem(initialProps: ["Bing": "Bong"])) {
-			//	Technically this case should never happen in this specific closure as we have already checked for this case in loadConfigFromFilesystem()…
-			print("Cannot set initial config - there appears to be an existing config in the filesytem.  Either a user generated one, or a default file....")
-		}
+//	Attempt to load the config from disc
+if (!appConfig.loadConfigFromFilesystem()) {
+	print("Unable to load app config from filesystem (neither from active config file, nor the defaults config file…)")
+	print("Setting config from a hard-coded property")
+	if (!appConfig.setInitialConfigWhereNoDefaultsInFilesystem(initialProps: ["Bing": "Bong"])) {
+		//	Technically this case should never happen in this specific closure as we have already checked for this case in loadConfigFromFilesystem()…
+		print("Cannot set initial config - there appears to be an existing config in the filesytem.  Either a user generated one, or a default file....")
 	}
+}
 ```
 
 
 ### Setting a property to the store 
 
 ```swift
-	let key = "bing"
-	appConfig[key] = "bang!"
+let key = "bing"
+appConfig[key] = "bang!"
 ```
 
 
 ### Getting a property from the store 
 
 ```swift
-	let key = "bing"
-	let retrievedConfigProperty = appConfig[key]
-	print("\(key): \(retrievedConfigProperty ?? "No config property for key: \(key)")")
+let key = "bing"
+let retrievedConfigProperty = appConfig[key]
+print("\(key): \(retrievedConfigProperty ?? "No config property for key: \(key)")")
 ```
 
 result:
