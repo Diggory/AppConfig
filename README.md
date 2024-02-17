@@ -9,14 +9,7 @@ If you are targetting Apple's platforms, then you should probably use Foundation
 ---
 
 > [!NOTE]  
-> Fill this section out with examples as per below…
-	
-- Add example where an existing config file exists
-- Add example where an existing config file doesn't exist, but a default config file exists
-- Add example where neither an existing config file exists nor a default config file exists. In this case we make defaults in code. 
-
-
-As this repo is public, I should _probably_ learn how to do tests…
+> As this repo is public, I should _probably_ learn how to do tests…
 
 ---
 
@@ -59,24 +52,75 @@ let package = Package(
 ---
 ## Examples
 
-### An example where an existing config file exists
+### Setup
+```
+	// Import AppConfig to use it.
+	import AppConfig
+	
+	//	The appConfig needs to know what your app name is, 
+	//	so that it can store the config in the correctly named files.
+	var appConfig = AppConfig(configFileName: "YourAppNameHere")
+	
+	//	In which folder should the config files be saved?  
+	//	/etc is only available to root.  
+	//	/tmp can be purged at any time (but can work for our examples).
+	appConfig.configDirectoryString = "/tmp/"
 
 ```
-example code here
+
+### 1) An example where an existing working config file exists `/etc/YourAppName.json` or a default config file exists `/etc/YourAppName_defaults.json`
+
+```
+	//	Attempt to load the config from disc
+	if (!appConfig.loadConfigFromFilesystem()) {
+		print("Unable to load app config from filesystem (neither from active config file, nor the defaults config file…)")
+	}
 ```
 
 ---
 
-### An example where an existing config file doesn't exist, but a default config file exists
+### 2) An example where neither an existing config file exists nor a default config file exists. In this case we make defaults in code. Useful in the failure case above.
 
 ```
-example code here
+	if (!appConfig.setInitialConfigWhereNoDefaultsInFilesystem(initialProps: ["Bing": "Bong"])) {
+			print("Cannot set initial config - there appears to be an existing config in the filesytem.  Either a user generated one, or a default file....")
+	}
 ```
 
----
-
-### An example where neither an existing config file exists nor a default config file exists. In this case we make defaults in code. 
+### A combination of 1 and 2:
 
 ```
-example code here
+	//	Attempt to load the config from disc
+	if (!appConfig.loadConfigFromFilesystem()) {
+		print("Unable to load app config from filesystem (neither from active config file, nor the defaults config file…)")
+		print("Setting config from a hard-coded property")
+		if (!appConfig.setInitialConfigWhereNoDefaultsInFilesystem(initialProps: ["Bing": "Bong"])) {
+			//	Technically this case should never happen in this specific closure as we have already checked for this case in loadConfigFromFilesystem()…
+			print("Cannot set initial config - there appears to be an existing config in the filesytem.  Either a user generated one, or a default file....")
+		}
+	}
 ```
+
+
+### Setting a property to the store 
+
+```
+	let key = "bing"
+	appConfig[key] = "bang!"
+```
+
+
+### Getting a property from the store 
+
+```
+	let key = "bing"
+	let retrievedConfigProperty = appConfig[key]
+	print("\(key): \(retrievedConfigProperty ?? "No config property for key: \(key)")")
+```
+
+result:
+
+```
+bing: bang!
+```
+

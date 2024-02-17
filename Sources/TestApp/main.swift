@@ -1,5 +1,17 @@
 import AppConfig
 
+///	A type that does not conform to the Codable Protocol
+struct NonCodableType {
+	let aString: String
+	let AnInt: Int
+}
+
+///	A type that does conform to Codable
+struct MyCodableType: Codable {
+	let aString: String
+	let AnInt: Int
+}
+
 //	A simple executable which shows use of AppConfig
 
 ///	Name of our app
@@ -23,18 +35,6 @@ if (!appConfig.loadConfigFromFilesystem()) {
 		//	Technically this case should never happen in this specific closure as we have already checked for this case in loadConfigFromFilesystem()…
 		print("Cannot set initial config - there appears to be an existing config in the filesytem.  Either a user generated one, or a default file....")
 	}
-}
-
-///	A type that does not conform to the Codable Protocol
-struct NonCodableType {
-	let aString: String
-	let AnInt: Int
-}
-
-///	A type that does conform to Codable
-struct MyCodableType: Codable {
-	let aString: String
-	let AnInt: Int
 }
 
 ///	Get a property from config store and print it out
