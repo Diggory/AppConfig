@@ -36,8 +36,10 @@ public class AppConfig {
 			if  newAppConfigDict ==  configDictionary{
 				return
 			}
-
+		}
+		didSet {
 			if shouldAutoSave {
+				//	FIXME: This doesn't work - and we end-up with an empty
 				_ = self.persistConfigToFilesystem()
 			}
 		}
