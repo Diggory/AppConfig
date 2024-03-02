@@ -1,4 +1,5 @@
 import AppConfig
+//import AnyCodable
 
 ///	A type that does not conform to the Codable Protocol
 struct NonCodableType {
@@ -39,8 +40,20 @@ if (!appConfig.loadConfigFromFilesystem()) {
 
 ///	Get a property from config store and print it out
 func getPropertyForKey(key:String) {
+	print("getPropertyForKey(key:\(key))")
 	let retrievedConfigProperty = appConfig[key]
 	print("\(key): \(retrievedConfigProperty ?? "No config property for key: \(key)")")
+	//	Type is always optional.
+	//	print("type of value: \(type(of: retrievedConfigProperty))")
+	
+	//	Unwrap
+	if let val = retrievedConfigProperty {
+		print("type of unwrapped value: \(type(of: val))")
+		print("value: \(val)")
+	}
+	
+	//	One-liner
+	print(appConfig[key] ?? "No Value")
 }
 
 ///	Set a property to config store and print it out
@@ -65,7 +78,7 @@ let testConfigPropertyKey3 = "testConfigPropertyKey3"
 getPropertyForKey(key: testConfigPropertyKey2)
 
 //	Cannot set non-codable type.  This would be an error if we were to uncomment the line below.
-//setPropertyForKey(NonCodableType(aString: "Foo", AnInt: 42), key: testConfigPropertyKey2)
+//	setPropertyForKey(NonCodableType(aString: "Foo", AnInt: 42), key: testConfigPropertyKey2)
 
 //	Codable Type Propery
 getPropertyForKey(key: testConfigPropertyKey3)
@@ -75,3 +88,4 @@ setPropertyForKey(MyCodableType(aString: "Foo", AnInt: 123), key: testConfigProp
 if (!appConfig.persistConfigToFilesystem()) {
 	print("Unable to save appConfig to disc")
 }
+

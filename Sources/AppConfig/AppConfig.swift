@@ -3,6 +3,7 @@ import AnyCodable
 
 
 /// Stores app configuration properties.  Can read and save them to file.
+///  Types to store must conform to Codable
 public class AppConfig {
 	
 	///	A shorthand for the config dict
@@ -43,12 +44,18 @@ public class AppConfig {
 	}
 	
 	//	Subscripting
-	public subscript(key: String) -> Codable? {
+	///	Although the subscript accepts Types of Any - in practice they must in fact conform to Codable
+	public subscript(key: String) -> Any? {
 		get {
-			configDictionary[key]
+			configDictionary[key]?.value
 		}
 	
 		set(optionalNewValue) {
+			//	Should we allow to set nil?  Effectively clearing the stored value...
+			guard optionalNewValue != nil else {
+				print("Attempt to set nil")
+				return
+			}
 			let newValue = optionalNewValue!
 			print("AppConfig: set[\(key):\(newValue)]")
 			configDictionary[key] = AnyCodable(newValue)
